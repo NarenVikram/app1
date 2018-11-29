@@ -1,0 +1,76 @@
+<html>
+	<head>
+		
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+		<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	</head>
+	
+	<body>
+		<div data-role="page">
+			<div data-role="header">
+			<h3>Fill here to Register  as a vendor</h3>
+		</div>
+		<form>
+			<div role="main" class="ui-content">
+		<input type="text" name="VendorName" placeholder="Enter vendor name" id="Vname" />
+		<input type="text" name="Add1" placeholder="Enter Address line1" id="Add1" />
+		<input type="text" name="Add2" placeholder="Enter line 2" id="Add2" />
+		<input type="text" name="Zip" placeholder="Enter Zip Code" id="Zip" />
+		<input type="text" name="Phone" placeholder="Enter your phone number" id="Phone" />
+		<input type="url" name="link" placeholder="Enter your Vendor Link" id="link" />
+		
+		<select id="Img">
+		
+		  <option value="">Select Image</option>
+		  <option value="walmart.jpg">Walmart</option>
+		  <option value="best.png">BestBuy</option>
+		  <option value="sport.jpg">SportCheck</option>
+		  
+		</select>
+		<input type="button"  value="Submit" id="btn"/>
+		</div>
+		</form>
+		<div data-role="footer">
+			
+			<div data-role="navbar">
+				<ul>
+					<li><a href="vendor.html" data-icon="back" class="ui-btn-active">Vendorlist</a></li>
+					
+					<li><a href="AddProduct.html" data-icon="shop">AddProduct</a></li>
+				</ul>
+			</div>
+		</div>
+		</div>
+		
+		<script>
+			$(document).ready(function(){
+				var Userdb3=openDatabase("UserDatabase","1.0","My user Login DataBase",2*1024*1024);
+				$("#btn").click(function(){
+					var Vname=$("#Vname").val();
+					var Add1=$("#Add1").val();
+					var Add2=$("#Add2").val();
+					var Zip=$("#Zip").val();
+					var Phone=$("#Phone").val();
+					var Img=$("#Img").val();
+					var li=$("#link").val();
+					
+					Userdb3.transaction(function(tx){
+						
+						tx.executeSql('CREATE TABLE IF NOT EXISTS Vendors(VendorName Unique,Image,Address1,Address2,Zip,Phone,Link)');
+						tx.executeSql('INSERT INTO Vendors(VendorName,Image,Address1,Address2,Zip,Phone,Link) values("'+Vname+'","'+Img+'","'+Add1+'","'+Add2+'","'+Zip+'","'+Phone+'","'+li+'")');
+						
+						
+					});
+					alert("Vendor added successfully");
+							
+				});
+				
+				
+				
+			});
+		</script>
+		
+	</body>
+	
+</html>

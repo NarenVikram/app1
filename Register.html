@@ -1,0 +1,98 @@
+<html>
+	<head>
+		
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+		<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	</head>
+	
+	<body>
+		<div data-role="page">
+			<div data-role="header">
+			<h3>Fill here to Register </h3>
+		</div>
+		<form method="post">
+			<div role="main" class="ui-content">
+			
+			Username:-<input type="text" placeholder="Enter your Username" id="name" required=""/>
+			Email:-<input type="email" placeholder="enter your email" id="email" required="">
+			Password:-<input type="password" placeholder="Enter your password" id="pwd" required=""/>
+			Address:-<input type="text" placeholder="Enter your Address" id="address" />
+			Phone No:-<input type="text" placeholder="Enter your phone number" id="phone"/>
+			<input type="button" value="Register" id="btn"/>
+			
+		</div>
+		</form>
+		<div data-role="footer">
+			<a href="Login.html">Login</a>
+		</div>
+		</div>
+		
+		
+		<script>
+			$(document).ready(function(){
+				
+				$("#btn").click(function(){
+					
+					var name=$("#name").val();
+					var email=$("#email").val();
+					var pass=$("#pwd").val();
+					var add=$("#address").val();
+					var phone=$("#phone").val();
+					
+					var Userdb3=openDatabase("UserDatabase","1.0","My user Login DataBase",2*1024*1024);
+							
+					$(function create () {
+						Userdb3.transaction(function(tx){
+						tx.executeSql('CREATE TABLE IF NOT EXISTS Regg(Username unique NOT NULL,email NOT NULL,pwd NOT NULL,address,phone)');
+					
+						});
+					});	
+					
+					$(function insert () {
+						Userdb3.transaction(function(tx){
+						tx.executeSql('INSERT INTO Regg(Username,email,pwd,address,phone) values("'+name+'","'+email+'","'+pass+'","'+add+'","'+phone+'")');
+						});
+						
+				 	});
+				 	$(function display(){
+				 		Userdb3.transaction(function(tx){
+						tx.executeSql('SELECT * FROM Regg',[], function(tx, results){
+						var len = results.rows.length;
+						var count=0;
+    					
+    					for( var i=0;i<len;i++){
+    						if((results.rows.item(i).Username)==name){
+    							alert("User registered");
+    							count++;
+    							break;
+    							}
+    						}
+    						if(count==1){
+    							alert("Go for Login");
+    						}
+    						else if(email==''||pass==''){
+    							alert("Required feilds must be filled");
+    							
+    						}
+    						else{
+    							alert("Registration Successfull");
+    							  						
+    						
+    						}
+    						
+    						
+    						
+    						}, null);
+								
+						});
+			
+					});
+					
+				});
+			});
+		</script>
+		
+	</body>
+	
+</html>

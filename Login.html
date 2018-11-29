@@ -1,0 +1,96 @@
+<html>
+	<head>
+		
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+		<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	</head>
+	
+	
+		<div data-role="page">
+		
+		<div data-role="header">
+			<h1>welcome to Online Shopping </h1>
+		</div>
+		<form method="post">
+		<div role="main" class="ui-content">
+			
+			<input type="text" placeholder="Enter your Username" id="name"/>
+			
+			<input type="password" placeholder="Enter your password" id="pwd"/>
+			<input type="button" value="Login" id="btn"/>
+			
+		</div>
+		</form>
+		<div data-role="footer">
+			<a href="Register.html">Register</a>
+		</div>
+		</div>
+		<div id="dialog1">
+		<p> Login success</p>			
+		</div>
+		<div> 
+		<p>Login Failed</p>
+		</div>
+		<script>
+			$(document).ready(function(){
+			
+			var Userdb3=openDatabase("UserDatabase","1.0","My user Login DataBase",2*1024*1024);
+				
+					$("#btn").click(function(){
+					//var email=$("#email").val();
+					var name=$("#name").val();
+					var pass=$("#pwd").val();
+					
+			
+				$(function display(){
+				 		Userdb3.transaction(function(tx){
+						tx.executeSql('SELECT * FROM Regg',[], function(tx, results){
+						var len = results.rows.length;
+    					var count=0;
+    					for( var i=0;i<len;i++){
+    						if((results.rows.item(i).Username)==name&&(results.rows.item(i).pwd)==pass){
+    							count++;
+    						}
+    						localStorage.setItem("Username",name);
+    						}
+    						
+    						if(count==1&&name=="vikram"){
+    							
+    							alert("Login Success");
+    							
+  
+    							window.location.href="vendor.html";
+    							$( function() {
+   							 	$( "#dialog1" ).dialog();
+  								} );
+    						}
+    						else if(count==1){
+    							alert("Login Success");
+    							
+  
+    							window.location.href="Vendorlist.html";
+    							$( function() {
+   							 	$( "#dialog1" ).dialog();
+  								} );
+    						}
+    						else{
+									alert("Your credential are not valid");
+    							
+    						}
+    						
+    						}, null);
+								
+						});
+			
+					});
+							
+								
+					
+				});
+			});
+		</script>
+		
+	</body>
+	
+</html>

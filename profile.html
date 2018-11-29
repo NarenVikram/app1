@@ -1,0 +1,63 @@
+<html>
+	<head>
+		
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+		<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	</head>
+
+	<body>
+		
+		<div data-role="page">
+		
+		<div data-role="header" id="headertype">
+				<h1 id="name">User Details of </h1>
+		</div>
+	
+		<form>
+			<center>
+				
+			<p id="info"></p>
+			</center>
+		</form>
+		
+		<script>
+			var user=localStorage.getItem("Username");
+			var Userdb3=openDatabase("UserDatabase","1.0","My user Login DataBase",2*1024*1024);
+				$(document).ready(function(){
+					Userdb3.transaction(function (tx){
+						tx.executeSql('SELECT * FROM Regg',[], function(tx, results){
+							len=results.rows.length;
+							for(var i=0;i<len;i++){
+							if(results.rows.item(i).Username==user){
+							$("#name").append("<h1>"+results.rows.item(i).Username+"</h1>");
+							$("#info").append("<p>"+"Username:-"+results.rows.item(i).Username+"<br>"
+							+"Email Id:-"+results.rows.item(i).email+"<br>"
+							+"Password:-"+results.rows.item(i).pwd+"<br>"
+							+"Address:-"+results.rows.item(i).address+"<br>"
+							+"Phone:-"+results.rows.item(i).phone+"<br>"
+							
+							 +"</p>");
+							}
+							}
+							}, null);
+    			
+    				
+		});
+		});
+		
+		</script>
+		<div data-role="footer">
+			
+			<div data-role="navbar">
+				<ul>
+					<li><a href="Vendorlist.html" data-icon="info" class="ui-btn-active" id="VendorList">Vendorlist</a></li>
+					<li><a href="cart.html" data-icon="shop">Mycart</a></li>
+					
+				</ul>
+			</div>
+		</div>
+		</div>
+		
+</body>
+</html>

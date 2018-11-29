@@ -1,0 +1,69 @@
+<html>
+	<head>
+		<style>
+	img { 
+    width:25%; 
+	}
+	</style>
+		
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+		<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	</head>
+
+	<body>
+		
+		<div data-role="page" id="page">
+		
+		<div data-role="header" id="headertype">
+				<h1 id="cart">  </h1>
+			</div>
+			<form>
+			<div role="main" class="ui-content" id="mainType">
+				<center>
+					<p id="item"></p>
+				</center>
+			</div>
+		</form>
+		
+		<script>
+			var user=localStorage.getItem("Username");
+			var cart=localStorage.getItem("Quantity");
+			var product=localStorage.getItem("pname");
+			
+			
+			var Userdb3=openDatabase("UserDatabase","1.0","My user Login DataBase",2*1024*1024);
+				$(document).ready(function(){
+					$("#cart").append("This is "+user+" Cart"+"<br>");
+					Userdb3.transaction(function (tx){
+						tx.executeSql('SELECT * FROM Products',[], function(tx, results){
+							len=results.rows.length;
+							for(var i=0;i<len;i++){
+								if(results.rows.item(i).ProductName==product){
+									//alert(results.rows.item(i).Image);
+									$("#item").append("<img src=/FinalProject/Images/"+results.rows.item(i).Image+"/>"+"<p>"
+									+"No. of Items added to the cart:-"+cart
+									
+									+"</p>");
+							
+    						
+    						}
+    						}
+    						}, null);
+    				});
+		});
+		</script>
+		<div data-role="footer">
+			
+			<div data-role="navbar">
+				<ul>
+					<li><a href="spec.html" data-icon="back" class="ui-btn-active" id="VendorList">Specification</a></li>
+					
+					<li><a href="profile.html" data-icon="user">Profile</a></li>
+					<li><a href="Login.html" data-icon="power">Logout</a></li>
+				</ul>
+			</div>
+		</div>
+</div>
+</body>
+</html>

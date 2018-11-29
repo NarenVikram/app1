@@ -1,0 +1,77 @@
+<html>
+	<head>
+		
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+		<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	</head>
+	
+	<body>
+		<div data-role="page">
+			<div data-role="header">
+			<h3>Add Products to database</h3>
+		</div>
+		<form>
+			<div role="main" class="ui-content">
+		<input type="text" name="VName" placeholder="Enter Vendor Name" id="Vname" />		
+		<input type="text" name="PName" placeholder="Enter Product Name" id="Pname" />
+		<input type="text" name="Quant" placeholder="Enter the Quantity " id="Quant" />
+		<input type="text" name="Desc" placeholder="Enter Description" id="Desc" />
+		
+		<select id="Img">
+		
+		  <option value="">Select Image</option>
+		  <option value="iphone.jpg">Iphone</option>
+		  <option value="samsung.png">Samsung</option>
+		  <option value="moto.jpg">Motorola</option>
+		  
+		</select>
+		<input type="button"  value="Submit" id="btn"/>
+		</div>
+		</form>
+		<div data-role="footer">
+			
+			<div data-role="navbar">
+				
+			</div>
+		</div>
+		
+		<script>
+		$(document).ready(function(){
+			
+				var Userdb3=openDatabase("UserDatabase","1.0","My user Login DataBase",2*1024*1024);
+				$("#btn").click(function(){
+					var vname=$("#Vname").val();
+					var pname=$("#Pname").val();
+					var Quant=$("#Quant").val();
+					var Desc=$("#Desc").val();					
+					var Img=$("#Img").val();
+					Userdb3.transaction(function(tx){
+						//tx.executeSql('drop table Products');
+						tx.executeSql('CREATE TABLE IF NOT EXISTS Products(Vendorname,ProductName,Image,Quantity,Description)');
+						tx.executeSql('INSERT INTO Products(Vendorname,ProductName,Image,Quantity,Description) values("'+vname+'","'+pname+'","'+Img+'","'+Quant+'","'+Desc+'")');
+					
+						
+					});
+					alert("Products added Successfully");
+							
+				});
+				
+				
+				
+			});
+		</script>
+		<div data-role="footer">
+			
+			<div data-role="navbar">
+				<ul>
+					<li><a href="vendor.html" data-icon="back" class="ui-btn-active">Vendorlist</a></li>
+					<li><a href="AddVendor.html" data-icon="user">AddVendor</a></li>
+				</ul>
+			</div>
+		</div>
+		
+		</div>
+	</body>
+	
+</html>

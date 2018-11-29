@@ -1,0 +1,70 @@
+<html>
+	<head>
+		
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+		<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	</head>
+
+	<body>
+		
+		<div data-role="page" id="page">
+		
+		<div data-role="header" id="headertype">
+				<h1 id="vendor">  </h1>
+			</div>
+			<form>
+			<div role="main" class="ui-content" id="mainType">
+				<ul data-role="listview" data-filter="true" data-inset="true" id="ulType">
+				
+				</ul>
+			</div>
+		</form>
+		
+		<script>
+			var vendor=localStorage.getItem("Vendor");
+			
+			var Userdb3=openDatabase("UserDatabase","1.0","My user Login DataBase",2*1024*1024);
+				$(document).ready(function(){
+					Userdb3.transaction(function (tx){
+						tx.executeSql('SELECT * FROM Vendors',[], function(tx, results){
+							len=results.rows.length;
+							for(var j=0;j<len;j++){
+								if(results.rows.item(j).VendorName==vendor)
+							$("#vendor").append("<li><h1><a>"+"Welcome to:"+results.rows.item(j).VendorName+"<br>"
+    							+"<img src=/FinalProject/Images/"+results.rows.item(j).Image+  "/ >"
+    							+"</h1></a></li>");
+    						}
+    							}, null);
+    							tx.executeSql('SELECT * FROM Products',[], function(tx, results1){
+    							var len=results1.rows.length;
+								for(var i=0;i<len;i++){
+									if(results1.rows.item(i).Vendorname==vendor){
+								$("#ulType").append("<li><a href="+"spec.html" +">"
+    							+"<img src=/FinalProject/Images/"+results1.rows.item(i).Image+ "/>"+"<br>"
+    							+results1.rows.item(i).ProductName+"<p>"
+    							+"Quantity:-"+results1.rows.item(i).Quantity+"<br>"
+    							+"Description:-"+results1.rows.item(i).Description+"<br>"
+    							+"</p></a></li>");
+    							$("#ulType").listview('refresh');
+    						}
+    						}
+    							}, null);
+    				
+		});
+		});
+		</script>
+		<div data-role="footer">
+			
+			<div data-role="navbar">
+				<ul>
+					<li><a href="Vendorlist.html" data-icon="back" class="ui-btn-active" id="VendorList">Vendorlist</a></li>
+					<li><a href="navcp.html" data-icon="shop">Mycart</a></li>
+					<li><a href="profile.html" data-icon="user">Profile</a></li>
+					
+				</ul>
+			</div>
+		</div>
+		</div>
+</body>
+</html>
